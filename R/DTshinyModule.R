@@ -1,6 +1,3 @@
-library(shiny)
-library(shinydashboard)
-library(DT)
 #' DTmoduleUI
 #'
 #' @param id 
