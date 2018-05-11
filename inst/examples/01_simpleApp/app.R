@@ -1,6 +1,10 @@
 library(shiny)
 library(shinydashboard)
 library(DT)
+library(futile.logger)
+futile.logger::flog.threshold(DEBUG)
+
+flog.debug("Running example...")
 
 ui <- dashboardPage(
   dashboardHeader(),

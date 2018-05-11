@@ -90,9 +90,6 @@ DTmodule <- function(input,
       <button type="button" class="btn btn-secondary delete" id=delete_',
       1:nrow(state$data),
       '>Delete</button>
-      <button type="button" class="btn btn-secondary modify"id=modify_',
-      1:nrow(state$data),
-      '>Modify</button>
       </div>
       '
     )
