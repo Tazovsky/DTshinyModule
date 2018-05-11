@@ -108,7 +108,16 @@ DTmodule <- function(input,
   })
   
   observeEvent(input$delRowHead, {
-    checked.rows <- input$checkedRows
+    
+    if (!shiny::isTruthy(input$checkedRows)) {
+      shiny::showModal(shiny::modalDialog(
+        title = "Error",
+        tags$span("First select rows to delete by checkbox."),
+        size = "s"
+      ))
+    }
+    
+    checked.rows <- req(input$checkedRows)
     row.to.del <- as.numeric(gsub(checked.rows.id.prefix, "", checked.rows))
     flog.debug(sprintf("Removing rows: %s", 
                        paste0(checked.rows, collapse = ",")))

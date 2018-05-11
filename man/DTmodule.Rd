@@ -5,7 +5,7 @@
 \title{DTmodule}
 \usage{
 DTmodule(input, output, session, data, checkbox.colname = "Select",
-  checked.rows.id.prefix = "Row")
+  checked.rows.id.prefix = "Row", header = NULL)
 }
 \arguments{
 \item{input}{}
@@ -19,6 +19,8 @@ DTmodule(input, output, session, data, checkbox.colname = "Select",
 \item{checkbox.colname}{}
 
 \item{checked.rows.id.prefix}{}
+
+\item{header}{}
 }
 \value{
 reactiveValues
