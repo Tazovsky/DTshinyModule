@@ -1,7 +1,7 @@
 Package: DTshinyModule
 Type: Package
 Title: Shiny module which add checkboxes, row addition, row deletion
-Version: 0.1.0
+Version: 0.2.0
 Author: Kamil Foltyński <kamil.foltynski@gmail.com>
 Maintainer: Kamil Foltyński <kamil.foltynski@gmail.com>
 Description: More about what it does (maybe more than one line)
