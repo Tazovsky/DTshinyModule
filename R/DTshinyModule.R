@@ -23,7 +23,7 @@ DTmoduleUI <- function(id) {
 #' @return reactiveValues
 #' @export
 #' 
-#' @importFrom data.table data.table
+#' @importFrom data.table data.table %like%
 #' @importFrom futile.logger flog.debug
 #' @importFrom DT renderDataTable datatable dataTableOutput
 DTmodule <- function(input,
@@ -55,7 +55,6 @@ DTmodule <- function(input,
                  HTML('<div class="btn-group" role="group" aria-label="Basic example">'),
                  actionButton(inputId = session$ns("addRowHead"), label = "Add a new row"),
                  actionButton(inputId = session$ns("delRowHead"), label = "Delete selected rows"),
-                 actionButton(inputId = session$ns("compareRowHead"), label = "Compare selected rows"),
                  HTML('</div>')
           ),
           column(12, DT::dataTableOutput(session$ns("mainTable"))),
