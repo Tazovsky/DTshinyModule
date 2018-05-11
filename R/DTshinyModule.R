@@ -18,6 +18,7 @@ DTmoduleUI <- function(id) {
 #' @param data 
 #' @param checkbox.colname 
 #' @param checked.rows.id.prefix 
+#' @param header 
 #'
 #' @return reactiveValues
 #' @export
@@ -30,7 +31,8 @@ DTmodule <- function(input,
                      session,
                      data,
                      checkbox.colname = "Select",
-                     checked.rows.id.prefix = "Row") {
+                     checked.rows.id.prefix = "Row",
+                     header = NULL) {
   
   stopifnot(!is.null(data) && is.data.frame(data))
   
@@ -43,8 +45,12 @@ DTmodule <- function(input,
   output$content <- renderUI({
     fluidPage(
       box(width = 12,
-          h3(strong("Actions on datatable with buttons"), align="center"),
-          hr(),
+          if (!is.null(header) && nchar(header) > 0) {
+            tagList(
+              h3(strong(header), align = "center"),
+              hr()
+            )
+          },
           column(6,offset = 6,
                  HTML('<div class="btn-group" role="group" aria-label="Basic example">'),
                  actionButton(inputId = session$ns("addRowHead"), label = "Add a new row"),
