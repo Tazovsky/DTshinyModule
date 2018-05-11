@@ -6,7 +6,6 @@ library(DT)
 #' @param id 
 #' @param ... 
 #'
-#' @return
 #' @export
 #'
 DTmoduleUI <- function(id) {
