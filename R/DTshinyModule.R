@@ -4,7 +4,7 @@
 #' @param ... 
 #'
 #' @export
-#'
+#' @rdname DTmodule
 DTmoduleUI <- function(id) {
   ns <- shiny::NS(id)
   uiOutput(ns("content"))
@@ -19,20 +19,26 @@ DTmoduleUI <- function(id) {
 #' @param checkbox.colname 
 #' @param checked.rows.id.prefix 
 #' @param header 
+#' @param add.row 
+#' @param delete.row 
 #'
 #' @return reactiveValues
 #' @export
-#' 
+#' @rdname DTmodule
 #' @importFrom data.table data.table %like%
 #' @importFrom futile.logger flog.debug
 #' @importFrom DT renderDataTable datatable dataTableOutput
+#' @importFrom shiny isTruthy
 DTmodule <- function(input,
                      output,
                      session,
                      data,
                      checkbox.colname = "Select",
+                     actions.colname = "Actions",
                      checked.rows.id.prefix = "Row",
-                     header = NULL) {
+                     header = NULL,
+                     add.row = TRUE,
+                     delete.row = TRUE) {
   
   stopifnot(!is.null(data) && is.data.frame(data))
   
@@ -51,12 +57,14 @@ DTmodule <- function(input,
               hr()
             )
           },
-          column(6,offset = 6,
+          # if (any(isTRUE(c(add.row, delete.row)))) {
+          column(6, offset = 6,
                  HTML('<div class="btn-group" role="group" aria-label="Basic example">'),
-                 actionButton(inputId = session$ns("addRowHead"), label = "Add a new row"),
-                 actionButton(inputId = session$ns("delRowHead"), label = "Delete selected rows"),
+                 if (add.row) actionButton(inputId = session$ns("addRowHead"), label = "Add a new row"),
+                 if (delete.row) actionButton(inputId = session$ns("delRowHead"), label = "Delete selected rows"),
                  HTML('</div>')
           ),
+          #},
           column(12, DT::dataTableOutput(session$ns("mainTable"))),
           tags$script(HTML(sprintf('
                                    $(document).on("click", "input", function () {
@@ -65,7 +73,10 @@ DTmodule <- function(input,
                                    for (var i=0; i < checkboxes.length; i++) {
                                    if (checkboxes[i].checked) {
                                    checkboxesChecked.push(checkboxes[i].value);
-                                   }
+                                   } 
+                                   //else {
+                                   //  checkboxesChecked.push("-" + checkboxes[i].value);
+                                   //}
                                    }
                                    Shiny.onInputChange("%s", checkboxesChecked);
                                    })', session$ns("checkedRows")))),
@@ -80,19 +91,21 @@ DTmodule <- function(input,
   
   output$mainTable <- DT::renderDataTable({
     DT <- state$data
-    DT[[checkbox.colname]] <-
-      sprintf('<input type="checkbox" name = "row_selected" value = "%s"><br>',
-              paste0(checked.rows.id.prefix, 1:nrow(DT)))
     
-    DT[["Actions"]] <- paste0(
-      '
-      <div class="btn-group" role="group" aria-label="Basic example">
-      <button type="button" class="btn btn-secondary delete" id=delete_',
-      1:nrow(state$data),
-      '>Delete</button>
-      </div>
-      '
-    )
+    if (shiny::isTruthy(checkbox.colname))
+      DT[[checkbox.colname]] <-
+        sprintf('<input type="checkbox" name = "row_selected" value = "%s"><br>',
+                paste0(checked.rows.id.prefix, 1:nrow(DT)))
+    
+    if (shiny::isTruthy(actions.colname))
+      DT[[actions.colname]] <- paste0(
+        '
+        <div class="btn-group" role="group" aria-label="Basic example">
+        <button type="button" class="btn btn-secondary delete" id=delete_',
+        1:nrow(state$data),
+        '>Delete</button>
+        </div>
+        ')
     
     DT::datatable(DT, escape = FALSE, editable = TRUE)
   })

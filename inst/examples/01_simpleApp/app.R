@@ -33,7 +33,11 @@ server <- function(input, output) {
   callModule(DTmodule, "DTmodule",
              data = mtcars,
              checkbox.colname = "Select",
-             checked.rows.id.prefix = "Row")
+             actions.colname = "Actions",
+             checked.rows.id.prefix = "Row",
+             header = "Enchanced DataTable",
+             add.row = TRUE,
+             delete.row = TRUE)
 }
 
 shinyApp(ui, server)
