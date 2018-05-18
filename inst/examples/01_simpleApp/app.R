@@ -37,7 +37,8 @@ server <- function(input, output) {
              checked.rows.id.prefix = "Row",
              header = "Enchanced DataTable",
              add.row = TRUE,
-             delete.row = TRUE)
+             delete.row = TRUE,
+             is.checked.rule = quote(gear == 4))
 }
 
 shinyApp(ui, server)
