@@ -9,7 +9,8 @@ DTmoduleUI(id)
 
 DTmodule(input, output, session, data, checkbox.colname = "Select",
   actions.colname = "Actions", checked.rows.id.prefix = "Row",
-  header = NULL, add.row = TRUE, delete.row = TRUE)
+  header = NULL, add.row = TRUE, delete.row = TRUE,
+  is.checked.rule = NULL)
 }
 \arguments{
 \item{id}{}
@@ -24,6 +25,8 @@ DTmodule(input, output, session, data, checkbox.colname = "Select",
 
 \item{checkbox.colname}{}
 
+\item{actions.colname}{}
+
 \item{checked.rows.id.prefix}{}
 
 \item{header}{}
@@ -31,6 +34,8 @@ DTmodule(input, output, session, data, checkbox.colname = "Select",
 \item{add.row}{}
 
 \item{delete.row}{}
+
+\item{is.checked.rule}{}
 
 \item{...}{}
 }
@@ -41,4 +46,9 @@ reactiveValues
 DTmoduleUI
 
 DTmodule
+}
+\author{
+Kamil Foltyński
+
+Kamil Foltyński
 }
