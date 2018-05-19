@@ -52,6 +52,7 @@ DTmodule <- function(input,
   stopifnot(!is.null(data) && is.data.frame(data))
   
   state <- reactiveValues(data = data.table::data.table(data),
+                          data.and.checkbox = NULL,
                           checked.rows = NULL,
                           checkbox.colname = checkbox.colname,
                           checked.rows.id.prefix = checked.rows.id.prefix,
@@ -178,6 +179,18 @@ DTmodule <- function(input,
     } else if (input$lastClickId %like% "modify") {
       showModal(modal_modify)
     }
+  })
+  
+  observeEvent(state$checked.rows, {
+    table <- req(state$data)
+    checked.rows <- req(state$checked.rows)
+    checked.rows.id.prefix <- req(state$checked.rows.id.prefix)
+    
+    idx <- as.numeric(gsub(checked.rows.id.prefix, "", checked.rows))
+    idx.logical <- if_else(idx > 0, TRUE, FALSE)
+    
+    table[[checkbox.colname]] <- idx.logical
+    state$data.and.checkbox <- table
   })
   
   return(state)
